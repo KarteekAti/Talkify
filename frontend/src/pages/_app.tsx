@@ -4,14 +4,15 @@ import { AppProps } from "next/app";
 import { theme } from "../chakra/theme";
 import { client } from "../graphql/apollo-client";
 import { ApolloProvider } from "@apollo/client";
+import { Toaster } from "react-hot-toast";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <SessionProvider session={session}>
-        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <ChakraProvider theme={theme}>
           <Component {...pageProps} />
+          <Toaster />
         </ChakraProvider>
       </SessionProvider>
     </ApolloProvider>

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "codegen": "graphql-codegen --config codegen.ts",
     "dev": "nodemon src/index.ts"
   },
   "keywords": [],
@@ -11,17 +12,29 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.7.4",
+    "@graphql-tools/graphql-file-loader": "^8.0.0",
+    "@graphql-tools/load": "^8.0.0",
     "@graphql-tools/schema": "^10.0.0",
+    "@prisma/client": "^4.16.1",
     "express": "^4.18.2",
     "graphql": "^16.7.1",
+    "graphql-tools": "^9.0.0",
     "lodash.merge": "^4.6.2",
+    "next-auth": "^4.10.3",
+    "prisma-erd-generator": "^1.6.2",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "4.0.1",
+    "@graphql-codegen/introspection": "4.0.0",
+    "@graphql-codegen/typescript": "4.0.1",
+    "@graphql-codegen/typescript-resolvers": "4.0.1",
     "@types/cors": "^2.8.13",
     "@types/lodash.merge": "^4.6.7",
     "@types/node": "^20.3.1",
     "nodemon": "^2.0.22",
+    "prettier-plugin-prisma": "^4.13.0",
+    "prisma": "^4.16.1",
     "typescript": "^5.1.3"
   }
 }

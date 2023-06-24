@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Auth from "../components/Auth/Auth";
 import Chat from "../components/Chat/Chat";
@@ -8,13 +8,15 @@ import { authOptions } from "./api/auth/[...nextauth]";
 
 const Index = () => {
   const { data: session } = useSession();
-
-  const reloadSession = () => {};
+  const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
+  };
 
   return (
     <Box>
       {session?.user.username ? (
-        <Chat />
+        <Chat session={session} />
       ) : (
         <Auth session={session} reloadSession={reloadSession} />
       )}

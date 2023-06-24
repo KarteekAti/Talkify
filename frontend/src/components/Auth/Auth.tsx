@@ -1,7 +1,15 @@
+import { useMutation } from "@apollo/client";
 import { Button, Center, Image, Input, Stack, Text } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
+import {
+  CreateUsernameResponse,
+  CreateUsernameMutationVariables,
+} from "../../gql/graphql";
 import { useState } from "react";
+import UserOperations from "../../graphql/operations/user";
+import toast from "react-hot-toast";
+import { CreateUsernameData } from "../../util/types";
 
 interface IAuthProps {
   session: Session | null;
@@ -12,12 +20,31 @@ const Auth: React.FunctionComponent<IAuthProps> = ({
   session,
   reloadSession,
 }) => {
+  console.log(session);
   const [username, setUsername] = useState("");
+  const [createUsername, { loading, error }] = useMutation<
+    CreateUsernameData,
+    CreateUsernameMutationVariables
+  >(UserOperations.Mutation.createUsername);
 
   const onSubmit = async () => {
     try {
+      if (!username) throw new Error("Empty Field");
+      const { data } = await createUsername({ variables: { username } });
+
+      if (!data) {
+        throw new Error("Hi");
+      }
+      if (data.createUsername.error) {
+        const { error } = data.createUsername;
+        throw new Error(error);
+      }
+      toast.success("Username Successfully Created! 🚀");
+
+      reloadSession();
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
+      console.log(error);
     }
   };
 
@@ -32,7 +59,7 @@ const Auth: React.FunctionComponent<IAuthProps> = ({
               value={username}
               onChange={(event) => setUsername(event.target.value)}
             ></Input>
-            <Button onClick={onSubmit} width="100%">
+            <Button onClick={onSubmit} width="100%" isLoading={loading}>
               Save
             </Button>
           </>
