@@ -1,12 +1,35 @@
 import { GraphQLError } from "graphql";
-import { GraphQLContext } from "../../util/types";
-import { Resolvers } from "../types";
+import { ConversationPopulated, GraphQLContext } from "../../util/types";
+import { Conversation, Resolvers } from "../types";
 import { Prisma } from "@prisma/client";
+import { withFilter } from "graphql-subscriptions";
 
 const resolvers: Resolvers = {
+  Query: {
+    conversations: async (parent, args, context: GraphQLContext, info) => {
+      const { session, prisma } = context;
+      if (!session?.user) {
+        throw new GraphQLError("Not authorized");
+      }
+      const { id } = session.user;
+
+      try {
+        const conversations = await prisma.conversation.findMany({
+          include: conversationPopulated,
+        });
+
+        return conversations.filter(
+          (conversation) =>
+            !!conversation.participants.find((p) => p.userId === id)
+        );
+      } catch (error: any) {
+        throw new GraphQLError(error?.message);
+      }
+    },
+  },
   Mutation: {
     createConversation: async (parent, args, context: GraphQLContext, info) => {
-      const { session, prisma } = context;
+      const { session, prisma, pubsub } = context;
       const { participantsIds } = args;
 
       if (!session?.user) {
@@ -29,6 +52,10 @@ const resolvers: Resolvers = {
           include: conversationPopulated,
         });
 
+        pubsub.publish("CONVERSATION_CREATED", {
+          conversationCreated: conversation,
+        });
+
         return { conversationId: conversation.id };
       } catch (error) {
         console.log("createConversation error", error);
@@ -36,7 +63,36 @@ const resolvers: Resolvers = {
       }
     },
   },
+  Subscription: {
+    conversationCreated: {
+      //@ts-ignore
+      subscribe: withFilter(
+        (_p: any, __a: any, { pubsub }: GraphQLContext) => {
+          return pubsub.asyncIterator(["CONVERSATION_CREATED"]);
+        },
+        (
+          payload: ConversationCreatedSubscriptionPayload,
+          _,
+          context: GraphQLContext
+        ) => {
+          const { session } = context;
+          const {
+            conversationCreated: { participants },
+          } = payload;
+
+          const userIsParticipant = !!participants?.find(
+            (p) => p.userId === session?.user?.id
+          );
+          return userIsParticipant;
+        }
+      ),
+    },
+  },
 };
+
+export interface ConversationCreatedSubscriptionPayload {
+  conversationCreated: ConversationPopulated;
+}
 
 export const participantPopulated =
   Prisma.validator<Prisma.ConversationParticipantInclude>()({
@@ -44,6 +100,7 @@ export const participantPopulated =
       select: {
         id: true,
         username: true,
+        image: true,
       },
     },
   });

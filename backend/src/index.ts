@@ -9,14 +9,37 @@ import express from "express";
 import http from "http";
 import { getSession } from "next-auth/react";
 import { schema } from "./graphql/index";
-import { GraphQLContext, Session } from "./util/types";
+import { GraphQLContext, Session, SubscriptionContext } from "./util/types";
 import { PrismaClient } from "@prisma/client";
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/lib/use/ws";
+import { PubSub } from "graphql-subscriptions";
 
 async function startApolloSever() {
   dotenv.config();
   const app = express();
   const httpServer = http.createServer(app);
   const prisma = new PrismaClient();
+  const pubsub = new PubSub();
+
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: "/graphql/subscriptions",
+  });
+
+  const serverCleanup = useServer(
+    {
+      schema,
+      context: async (ctx: SubscriptionContext): Promise<GraphQLContext> => {
+        if (ctx.connectionParams && ctx.connectionParams.session) {
+          const { session } = ctx.connectionParams;
+          return { session, prisma, pubsub };
+        }
+        return { session: null, prisma, pubsub };
+      },
+    },
+    wsServer
+  );
 
   const server = new ApolloServer({
     schema,
@@ -25,6 +48,15 @@ async function startApolloSever() {
     plugins: [
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
       ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
     ],
     introspection: true,
   });
@@ -40,8 +72,7 @@ async function startApolloSever() {
       context: async ({ req, res }): Promise<GraphQLContext> => {
         try {
           const session = await getSession({ req });
-          console.log(session);
-          return { session: session as Session, prisma };
+          return { session: session as Session, prisma, pubsub };
         } catch (error) {
           throw error;
         }

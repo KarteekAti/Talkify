@@ -1,6 +1,11 @@
 import { GraphQLError } from "graphql";
 import { GraphQLContext } from "../../util/types";
-import { CreateUsernameResponse, Resolvers, User } from "../types";
+import {
+  CreateUsernameResponse,
+  Resolvers,
+  SearchedUser,
+  User,
+} from "../types";
 
 export const resolvers: Resolvers = {
   Mutation: {
@@ -53,12 +58,7 @@ export const resolvers: Resolvers = {
   },
 
   Query: {
-    searchUsers: async (
-      parent,
-      args,
-      context: GraphQLContext,
-      info
-    ): Promise<Array<User>> => {
+    searchUsers: async (parent, args, context: GraphQLContext, info) => {
       const { username: searchedUsername } = args;
       const { session, prisma } = context;
       if (!session?.user) {
