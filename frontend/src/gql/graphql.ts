@@ -21,7 +21,7 @@ export type Conversation = {
   __typename?: 'Conversation';
   createdAt?: Maybe<Scalars['Date']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  lastestMessage?: Maybe<Message>;
+  latestMessage?: Maybe<Message>;
   participants?: Maybe<Array<Maybe<Paricipant>>>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
@@ -49,6 +49,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createConversation?: Maybe<CreateConversationResponse>;
   createUsername?: Maybe<CreateUsernameResponse>;
+  markConversationAsRead?: Maybe<Scalars['Boolean']['output']>;
+  sendMessage?: Maybe<Scalars['Boolean']['output']>;
 };
 
 
@@ -61,6 +63,20 @@ export type MutationCreateUsernameArgs = {
   username: Scalars['String']['input'];
 };
 
+
+export type MutationMarkConversationAsReadArgs = {
+  conversationId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationSendMessageArgs = {
+  body: Scalars['String']['input'];
+  conversationId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  senderId: Scalars['String']['input'];
+};
+
 export type Paricipant = {
   __typename?: 'Paricipant';
   hasSeenLatestMessage?: Maybe<Scalars['Boolean']['output']>;
@@ -71,7 +87,13 @@ export type Paricipant = {
 export type Query = {
   __typename?: 'Query';
   conversations: Array<Conversation>;
+  messages?: Maybe<Array<Maybe<Message>>>;
   searchUsers?: Maybe<Array<Maybe<SearchedUser>>>;
+};
+
+
+export type QueryMessagesArgs = {
+  conversationId: Scalars['String']['input'];
 };
 
 
@@ -89,6 +111,12 @@ export type SearchedUser = {
 export type Subscription = {
   __typename?: 'Subscription';
   conversationCreated?: Maybe<Conversation>;
+  messageSent?: Maybe<Message>;
+};
+
+
+export type SubscriptionMessageSentArgs = {
+  conversationId: Scalars['String']['input'];
 };
 
 export type User = {

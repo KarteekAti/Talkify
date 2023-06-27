@@ -27,3 +27,13 @@ export const conversationPopulated =
       },
     },
   });
+
+export const messagePopulated = Prisma.validator<Prisma.MessageInclude>()({
+  sender: {
+    select: {
+      id: true,
+      username: true,
+      image: true,
+    },
+  },
+});

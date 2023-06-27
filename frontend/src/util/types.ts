@@ -6,7 +6,11 @@ import {
 } from "../gql/graphql";
 
 import { User } from "next-auth";
-import { conversationPopulated, participantPopulated } from "./populatedFields";
+import {
+  conversationPopulated,
+  messagePopulated,
+  participantPopulated,
+} from "./populatedFields";
 
 export interface CreateUsernameData {
   createUsername: CreateUsernameResponse;
@@ -21,14 +25,6 @@ export interface SearchedUser {
   username: string;
   image: string;
 }
-
-export type ConversationPopulated = Prisma.ConversationGetPayload<{
-  include: typeof conversationPopulated;
-}>;
-
-export type ParticipantPopulated = Prisma.ConversationParticipantGetPayload<{
-  include: typeof participantPopulated;
-}>;
 
 export interface ConversationsData {
   conversations: Array<ConversationPopulated>;
@@ -45,3 +41,27 @@ export interface ConversationCreatedSubscriptionData {
 export interface CreateConversationData {
   createConversation: CreateConversationResponse;
 }
+
+export interface MessagesData {
+  messages: Array<MessagePopulated>;
+}
+
+export interface MessageSubscriptionData {
+  subscriptionData: {
+    data: {
+      messageSent: MessagePopulated;
+    };
+  };
+}
+
+export type ConversationPopulated = Prisma.ConversationGetPayload<{
+  include: typeof conversationPopulated;
+}>;
+
+export type ParticipantPopulated = Prisma.ConversationParticipantGetPayload<{
+  include: typeof participantPopulated;
+}>;
+
+export type MessagePopulated = Prisma.MessageGetPayload<{
+  include: typeof messagePopulated;
+}>;

@@ -113,7 +113,7 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent bg="whiteAlpha.100">
+        <ModalContent bg="#242424">
           <ModalHeader textAlign="center">
             Find or Start Conversations
           </ModalHeader>

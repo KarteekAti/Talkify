@@ -18,20 +18,29 @@ type User {
 type Query {
   searchUsers(username: String!): [SearchedUser]
   conversations: [Conversation!]!
+  messages(conversationId: String!): [Message]
 }
 
 type Mutation {
   createUsername(username: String!): CreateUsernameResponse
   createConversation(participantsIds: [String!]!): CreateConversationResponse
+  sendMessage(
+    id: String!
+    conversationId: String!
+    senderId: String!
+    body: String!
+  ): Boolean
+  markConversationAsRead(userId: String!, conversationId: String!): Boolean
 }
 
 type Subscription {
   conversationCreated: Conversation
+  messageSent(conversationId: String!): Message
 }
 
 type Conversation {
   id: String
-  lastestMessage: Message
+  latestMessage: Message
   participants: [Paricipant]
   createdAt: Date
   updatedAt: Date

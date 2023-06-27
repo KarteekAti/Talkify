@@ -11,7 +11,7 @@ import {
 import { formatRelative } from "date-fns";
 import enUS from "date-fns/locale/en-US";
 import React, { useState } from "react";
-import { MdDeleteOutline } from "react-icons/md";
+import { GoDotFill } from "react-icons/go";
 import { BiLogOut } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { formatImages, formatUsernames } from "../../../util/functions";
@@ -29,7 +29,7 @@ interface ConversationItemProps {
   conversation: ConversationPopulated;
   onClick: () => void;
   isSelected: boolean;
-  //hasSeenLatestMessage: boolean | undefined;
+  hasSeenLatestMessage: boolean | undefined;
   //onDeleteConversation: (conversationId: string) => void;
   //   onEditConversation?: () => void;
   //   hasSeenLatestMessage?: boolean;
@@ -42,7 +42,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   conversation,
   onClick,
   isSelected,
-  // hasSeenLatestMessage,
+  hasSeenLatestMessage,
   // onDeleteConversation,
   //   selectedConversationId,
   //   onEditConversation,
@@ -120,11 +120,11 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           )} */}
         </MenuList>
       </Menu>
-      {/* <Flex position="absolute" left="-6px">
+      <Flex position="absolute" left="-2px">
         {hasSeenLatestMessage === false && (
-          <GoPrimitiveDot fontSize={18} color="#6B46C1" />
+          <GoDotFill fontSize={18} color="#2784db" />
         )}
-      </Flex> */}
+      </Flex>
       <Avatar src={formatImages(conversation.participants, userId)} />
       <Flex justify="space-between" width="80%" height="100%">
         <Flex direction="column" width="70%" height="100%">
@@ -136,6 +136,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           >
             {formatUsernames(conversation.participants, userId)}
           </Text>
+
+          <> {console.log(conversation.latestMessage)}</>
           {conversation.latestMessage && (
             <Box width="140%" maxWidth="360px">
               <Text

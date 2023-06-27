@@ -1,25 +1,20 @@
 import { gql } from "@apollo/client";
+import { MessageFields } from "./message";
 
 const ConversationFields = `
   id
+  updatedAt
   participants {
     user {
       id
       username
-      image
     }
     hasSeenLatestMessage
   }
-  lastestMessage {
-    id
-    sender {
-      id
-      username
-    }
-    body
-    createdAt
+  latestMessage {
+    ${MessageFields}
   }
-  updatedAt`;
+`;
 
 export default {
   Queries: {
@@ -33,10 +28,18 @@ export default {
   },
   Mutations: {
     createConversation: gql`
-      mutation Mutation($participantsIds: [String!]!) {
+      mutation CreateConversation($participantsIds: [String!]!) {
         createConversation(participantsIds: $participantsIds) {
           conversationId
         }
+      }
+    `,
+    markConversationAsRead: gql`
+      mutation MarkConversationAsRead(
+        $userId: String!
+        $conversationId: String!
+      ) {
+        markConversationAsRead(userId: $userId, conversationId: $conversationId)
       }
     `,
   },

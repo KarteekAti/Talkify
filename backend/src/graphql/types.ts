@@ -21,7 +21,7 @@ export type Conversation = {
   __typename?: 'Conversation';
   createdAt?: Maybe<Scalars['Date']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  lastestMessage?: Maybe<Message>;
+  latestMessage?: Maybe<Message>;
   participants?: Maybe<Array<Maybe<Paricipant>>>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
@@ -49,6 +49,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createConversation?: Maybe<CreateConversationResponse>;
   createUsername?: Maybe<CreateUsernameResponse>;
+  markConversationAsRead?: Maybe<Scalars['Boolean']['output']>;
+  sendMessage?: Maybe<Scalars['Boolean']['output']>;
 };
 
 
@@ -61,6 +63,20 @@ export type MutationCreateUsernameArgs = {
   username: Scalars['String']['input'];
 };
 
+
+export type MutationMarkConversationAsReadArgs = {
+  conversationId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationSendMessageArgs = {
+  body: Scalars['String']['input'];
+  conversationId: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  senderId: Scalars['String']['input'];
+};
+
 export type Paricipant = {
   __typename?: 'Paricipant';
   hasSeenLatestMessage?: Maybe<Scalars['Boolean']['output']>;
@@ -71,7 +87,13 @@ export type Paricipant = {
 export type Query = {
   __typename?: 'Query';
   conversations: Array<Conversation>;
+  messages?: Maybe<Array<Maybe<Message>>>;
   searchUsers?: Maybe<Array<Maybe<SearchedUser>>>;
+};
+
+
+export type QueryMessagesArgs = {
+  conversationId: Scalars['String']['input'];
 };
 
 
@@ -89,6 +111,12 @@ export type SearchedUser = {
 export type Subscription = {
   __typename?: 'Subscription';
   conversationCreated?: Maybe<Conversation>;
+  messageSent?: Maybe<Message>;
+};
+
+
+export type SubscriptionMessageSentArgs = {
+  conversationId: Scalars['String']['input'];
 };
 
 export type User = {
@@ -207,7 +235,7 @@ export type ResolversParentTypes = {
 export type ConversationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Conversation'] = ResolversParentTypes['Conversation']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lastestMessage?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType>;
+  latestMessage?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType>;
   participants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Paricipant']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -239,6 +267,8 @@ export type MessageResolvers<ContextType = any, ParentType extends ResolversPare
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createConversation?: Resolver<Maybe<ResolversTypes['CreateConversationResponse']>, ParentType, ContextType, RequireFields<MutationCreateConversationArgs, 'participantsIds'>>;
   createUsername?: Resolver<Maybe<ResolversTypes['CreateUsernameResponse']>, ParentType, ContextType, RequireFields<MutationCreateUsernameArgs, 'username'>>;
+  markConversationAsRead?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationMarkConversationAsReadArgs, 'conversationId' | 'userId'>>;
+  sendMessage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'body' | 'conversationId' | 'id' | 'senderId'>>;
 };
 
 export type ParicipantResolvers<ContextType = any, ParentType extends ResolversParentTypes['Paricipant'] = ResolversParentTypes['Paricipant']> = {
@@ -250,6 +280,7 @@ export type ParicipantResolvers<ContextType = any, ParentType extends ResolversP
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   conversations?: Resolver<Array<ResolversTypes['Conversation']>, ParentType, ContextType>;
+  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['Message']>>>, ParentType, ContextType, RequireFields<QueryMessagesArgs, 'conversationId'>>;
   searchUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['SearchedUser']>>>, ParentType, ContextType, RequireFields<QuerySearchUsersArgs, 'username'>>;
 };
 
@@ -262,6 +293,7 @@ export type SearchedUserResolvers<ContextType = any, ParentType extends Resolver
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   conversationCreated?: SubscriptionResolver<Maybe<ResolversTypes['Conversation']>, "conversationCreated", ParentType, ContextType>;
+  messageSent?: SubscriptionResolver<Maybe<ResolversTypes['Message']>, "messageSent", ParentType, ContextType, RequireFields<SubscriptionMessageSentArgs, 'conversationId'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
