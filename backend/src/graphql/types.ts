@@ -26,6 +26,11 @@ export type Conversation = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type ConversationUpdatedPayload = {
+  __typename?: 'ConversationUpdatedPayload';
+  conversation?: Maybe<Conversation>;
+};
+
 export type CreateConversationResponse = {
   __typename?: 'CreateConversationResponse';
   conversationId?: Maybe<Scalars['String']['output']>;
@@ -111,6 +116,7 @@ export type SearchedUser = {
 export type Subscription = {
   __typename?: 'Subscription';
   conversationCreated?: Maybe<Conversation>;
+  conversationUpdated?: Maybe<ConversationUpdatedPayload>;
   messageSent?: Maybe<Message>;
 };
 
@@ -202,6 +208,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Conversation: ResolverTypeWrapper<Conversation>;
+  ConversationUpdatedPayload: ResolverTypeWrapper<ConversationUpdatedPayload>;
   CreateConversationResponse: ResolverTypeWrapper<CreateConversationResponse>;
   CreateUsernameResponse: ResolverTypeWrapper<CreateUsernameResponse>;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
@@ -219,6 +226,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Conversation: Conversation;
+  ConversationUpdatedPayload: ConversationUpdatedPayload;
   CreateConversationResponse: CreateConversationResponse;
   CreateUsernameResponse: CreateUsernameResponse;
   Date: Scalars['Date']['output'];
@@ -238,6 +246,11 @@ export type ConversationResolvers<ContextType = any, ParentType extends Resolver
   latestMessage?: Resolver<Maybe<ResolversTypes['Message']>, ParentType, ContextType>;
   participants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Paricipant']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConversationUpdatedPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConversationUpdatedPayload'] = ResolversParentTypes['ConversationUpdatedPayload']> = {
+  conversation?: Resolver<Maybe<ResolversTypes['Conversation']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -293,6 +306,7 @@ export type SearchedUserResolvers<ContextType = any, ParentType extends Resolver
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   conversationCreated?: SubscriptionResolver<Maybe<ResolversTypes['Conversation']>, "conversationCreated", ParentType, ContextType>;
+  conversationUpdated?: SubscriptionResolver<Maybe<ResolversTypes['ConversationUpdatedPayload']>, "conversationUpdated", ParentType, ContextType>;
   messageSent?: SubscriptionResolver<Maybe<ResolversTypes['Message']>, "messageSent", ParentType, ContextType, RequireFields<SubscriptionMessageSentArgs, 'conversationId'>>;
 };
 
@@ -308,6 +322,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Conversation?: ConversationResolvers<ContextType>;
+  ConversationUpdatedPayload?: ConversationUpdatedPayloadResolvers<ContextType>;
   CreateConversationResponse?: CreateConversationResponseResolvers<ContextType>;
   CreateUsernameResponse?: CreateUsernameResponseResolvers<ContextType>;
   Date?: GraphQLScalarType;

@@ -30,7 +30,7 @@ const UserSearchList: React.FC<UserSearchListProps> = ({
               bg="whiteAlpha.200"
               _hover={{ bg: "whiteAlpha.300" }}
             >
-              <Avatar src={user.image} />
+              <Avatar src={user.image} referrerPolicy="no-referrer" />
               <Flex justify="space-between" align="center" width="100%">
                 <Text color="whiteAlpha.900">{user.username}</Text>
                 <Button

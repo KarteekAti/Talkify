@@ -97,6 +97,29 @@
       },
       {
         "kind": "OBJECT",
+        "name": "ConversationUpdatedPayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "conversation",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Conversation",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "CreateConversationResponse",
         "description": null,
         "fields": [
@@ -638,6 +661,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "Conversation",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "conversationUpdated",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ConversationUpdatedPayload",
               "ofType": null
             },
             "isDeprecated": false,

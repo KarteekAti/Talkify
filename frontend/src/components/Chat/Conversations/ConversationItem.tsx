@@ -125,7 +125,10 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           <GoDotFill fontSize={18} color="#2784db" />
         )}
       </Flex>
-      <Avatar src={formatImages(conversation.participants, userId)} />
+      <Avatar
+        src={formatImages(conversation.participants, userId)}
+        referrerPolicy="no-referrer"
+      />
       <Flex justify="space-between" width="80%" height="100%">
         <Flex direction="column" width="70%" height="100%">
           <Text

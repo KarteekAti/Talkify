@@ -1,8 +1,13 @@
 import { GraphQLError } from "graphql";
-import { ConversationPopulated, GraphQLContext } from "../../util/types";
+import {
+  ConversationPopulated,
+  ConversationUpdatedSubscriptionPayload,
+  GraphQLContext,
+} from "../../util/types";
 import { Conversation, Resolvers } from "../types";
 import { Prisma } from "@prisma/client";
 import { withFilter } from "graphql-subscriptions";
+import { userIsConversationParticipant } from "../../util/functions";
 
 const resolvers: Resolvers = {
   Query: {
@@ -124,6 +129,38 @@ const resolvers: Resolvers = {
         }
       ),
     },
+    conversationUpdated: {
+      //@ts-ignore
+      subscribe: withFilter(
+        (_p: any, __a: any, { pubsub }: GraphQLContext) => {
+          return pubsub.asyncIterator("CONVERSTION_UPDATED");
+        },
+        (
+          payload: ConversationUpdatedSubscriptionPayload,
+          _: any,
+          context: GraphQLContext
+        ) => {
+          const { session } = context;
+          if (!session?.user) {
+            throw new GraphQLError("Not Authorized");
+          }
+
+          const { id: userId } = session.user;
+          const {
+            conversationUpdated: {
+              conversation: { participants },
+            },
+          } = payload;
+
+          const userIsParticipant = userIsConversationParticipant(
+            participants,
+            userId
+          );
+
+          return userIsParticipant;
+        }
+      ),
+    },
   },
 };
 
@@ -153,6 +190,7 @@ export const conversationPopulated =
           select: {
             id: true,
             username: true,
+            image: true,
           },
         },
       },

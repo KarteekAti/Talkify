@@ -26,7 +26,8 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, sentByMe }) => {
     >
       {!sentByMe && (
         <Flex align="flex-start">
-          <Avatar src={message.sender.image} />
+          <>{console.log(message.sender.image)}</>
+          <Avatar src={message.sender.image} referrerPolicy="no-referrer" />
         </Flex>
       )}
       <Stack spacing={1} width="100%">

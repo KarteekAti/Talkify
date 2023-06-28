@@ -38,6 +38,12 @@ export interface MessageSentSubscriptionPayload {
   messageSent: MessagePopulated;
 }
 
+export interface ConversationUpdatedSubscriptionPayload {
+  conversationUpdated: {
+    conversation: ConversationPopulated;
+  };
+}
+
 export type ConversationPopulated = Prisma.ConversationGetPayload<{
   include: typeof conversationPopulated;
 }>;

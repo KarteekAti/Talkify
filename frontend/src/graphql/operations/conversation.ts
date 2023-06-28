@@ -8,6 +8,7 @@ const ConversationFields = `
     user {
       id
       username
+      image
     }
     hasSeenLatestMessage
   }
@@ -48,6 +49,15 @@ export default {
       subscription ConversationCreated {
         conversationCreated{
           ${ConversationFields}
+        }
+      }
+    `,
+    conversationUpdated: gql`
+      subscription ConversationUpdated{
+        conversationUpdated{
+          conversation {
+            ${ConversationFields}
+          }
         }
       }
     `,

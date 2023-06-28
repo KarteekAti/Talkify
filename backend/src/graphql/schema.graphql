@@ -36,6 +36,7 @@ type Mutation {
 type Subscription {
   conversationCreated: Conversation
   messageSent(conversationId: String!): Message
+  conversationUpdated: ConversationUpdatedPayload
 }
 
 type Conversation {
@@ -66,4 +67,8 @@ type CreateUsernameResponse {
 
 type CreateConversationResponse {
   conversationId: String
+}
+
+type ConversationUpdatedPayload {
+  conversation: Conversation
 }
