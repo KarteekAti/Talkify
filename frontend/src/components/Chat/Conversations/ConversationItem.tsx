@@ -120,11 +120,12 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           )} */}
         </MenuList>
       </Menu>
-      <Flex position="absolute" left="-2px">
+      <Flex position="absolute" left="-3px">
         {hasSeenLatestMessage === false && (
-          <GoDotFill fontSize={18} color="#2784db" />
+          <GoDotFill fontSize={18} color="#6B46C1" />
         )}
       </Flex>
+
       <Avatar
         src={formatImages(conversation.participants, userId)}
         referrerPolicy="no-referrer"
@@ -140,7 +141,6 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             {formatUsernames(conversation.participants, userId)}
           </Text>
 
-          <> {console.log(conversation.latestMessage)}</>
           {conversation.latestMessage && (
             <Box width="140%" maxWidth="360px">
               <Text

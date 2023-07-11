@@ -38,8 +38,8 @@ const ConversationsWrapper: React.FC<ConversationsWrapperProps> = ({
   );
 
   const [markConversationAsRead] = useMutation<
-    { markConversationAsRead: true },
-    MutationMarkConversationAsReadArgs
+    { markConversationAsRead: boolean },
+    { userId: string; conversationId: string }
   >(ConversationOperations.Mutations.markConversationAsRead);
 
   useSubscription<ConversationUpdatedData, null>(
@@ -48,8 +48,18 @@ const ConversationsWrapper: React.FC<ConversationsWrapperProps> = ({
       onData: ({ client, data }) => {
         const { data: subscriptionData } = data;
 
-        if(!subscriptionData) return;
-        
+        if (!subscriptionData) return;
+
+        const {
+          conversationUpdated: { conversation: updatedConversation },
+        } = subscriptionData;
+
+        const currentlyViewingConversation =
+          updatedConversation.id === conversationId;
+
+        if (currentlyViewingConversation) {
+          onViewConversations(conversationId, false);
+        }
       },
     }
   );
@@ -126,7 +136,13 @@ const ConversationsWrapper: React.FC<ConversationsWrapperProps> = ({
       document: ConversationOperations.Subscriptions.conversationCreated,
       updateQuery: (
         prev,
-        { subscriptionData }: ConversationCreatedSubscriptionData
+        {
+          subscriptionData,
+        }: {
+          subscriptionData: {
+            data: { conversationCreated: ConversationPopulated };
+          };
+        }
       ) => {
         if (!subscriptionData.data) return prev;
         const newConversation = subscriptionData.data.conversationCreated;
@@ -140,7 +156,6 @@ const ConversationsWrapper: React.FC<ConversationsWrapperProps> = ({
   useEffect(() => {
     subscribeToNewConversations();
   }, []);
-  console.log(conversationData);
 
   return (
     <Box

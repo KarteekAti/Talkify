@@ -65,7 +65,7 @@ const resolvers: Resolvers = {
       const { id: userId } = session.user;
       const { body, conversationId, id, senderId } = args;
       if (senderId !== userId) {
-        throw new GraphQLError("Can't send message on someones behalf.");
+        throw new GraphQLError("Can't send message on someone's behalf.");
       }
       try {
         const newMessage = await prisma.message.create({
@@ -119,11 +119,11 @@ const resolvers: Resolvers = {
           include: conversationPopulated,
         });
         pubsub.publish("MESSAGE_SENT", { messageSent: newMessage });
-        // pubsub.publish("CONVERSATION_UPDATED", {
-        //   conversationUpdated: {
-        //     conversation,
-        //   },
-        // });
+        pubsub.publish("CONVERSATION_UPDATED", {
+          conversationUpdated: {
+            conversation,
+          },
+        });
         return true;
       } catch (error: any) {
         throw new GraphQLError("Can't send Message");

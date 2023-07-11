@@ -15,7 +15,7 @@
     "@graphql-tools/graphql-file-loader": "^8.0.0",
     "@graphql-tools/load": "^8.0.0",
     "@graphql-tools/schema": "^10.0.0",
-    "@prisma/client": "^4.16.1",
+    "@prisma/client": "^4.16.2",
     "express": "^4.18.2",
     "graphql": "^16.7.1",
     "graphql-subscriptions": "^2.0.0",
@@ -23,6 +23,7 @@
     "graphql-ws": "^5.14.0",
     "lodash.merge": "^4.6.2",
     "next-auth": "^4.10.3",
+    "prisma": "^4.16.2",
     "prisma-erd-generator": "^1.6.2",
     "ts-node": "^10.9.1",
     "ws": "^8.13.0"
@@ -37,7 +38,6 @@
     "@types/node": "^20.3.1",
     "nodemon": "^2.0.22",
     "prettier-plugin-prisma": "^4.13.0",
-    "prisma": "^4.16.1",
     "typescript": "^5.1.3"
   }
 }

@@ -61,6 +61,7 @@ async function startApolloSever() {
     introspection: true,
   });
   await server.start();
+  
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({

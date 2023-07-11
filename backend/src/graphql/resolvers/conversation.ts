@@ -109,7 +109,9 @@ const resolvers: Resolvers = {
     conversationCreated: {
       //@ts-ignore
       subscribe: withFilter(
-        (_p: any, __a: any, { pubsub }: GraphQLContext) => {
+        (_: any, __: any, context: GraphQLContext) => {
+          const { pubsub } = context;
+
           return pubsub.asyncIterator(["CONVERSATION_CREATED"]);
         },
         (
@@ -118,13 +120,20 @@ const resolvers: Resolvers = {
           context: GraphQLContext
         ) => {
           const { session } = context;
+
+          if (!session?.user) {
+            throw new GraphQLError("Not authorized");
+          }
+
           const {
             conversationCreated: { participants },
           } = payload;
 
-          const userIsParticipant = !!participants?.find(
-            (p) => p.userId === session?.user?.id
+          const userIsParticipant = userIsConversationParticipant(
+            participants,
+            session.user.id
           );
+
           return userIsParticipant;
         }
       ),
@@ -132,8 +141,10 @@ const resolvers: Resolvers = {
     conversationUpdated: {
       //@ts-ignore
       subscribe: withFilter(
-        (_p: any, __a: any, { pubsub }: GraphQLContext) => {
-          return pubsub.asyncIterator("CONVERSTION_UPDATED");
+        (_: any, __: any, context: GraphQLContext) => {
+          const { pubsub } = context;
+
+          return pubsub.asyncIterator(["CONVERSATION_UPDATED"]);
         },
         (
           payload: ConversationUpdatedSubscriptionPayload,
@@ -141,8 +152,9 @@ const resolvers: Resolvers = {
           context: GraphQLContext
         ) => {
           const { session } = context;
+
           if (!session?.user) {
-            throw new GraphQLError("Not Authorized");
+            throw new GraphQLError("Not authorized");
           }
 
           const { id: userId } = session.user;
@@ -152,12 +164,7 @@ const resolvers: Resolvers = {
             },
           } = payload;
 
-          const userIsParticipant = userIsConversationParticipant(
-            participants,
-            userId
-          );
-
-          return userIsParticipant;
+          return userIsConversationParticipant(participants, userId);
         }
       ),
     },
