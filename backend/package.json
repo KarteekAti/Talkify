@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "codegen": "graphql-codegen --config codegen.ts",
     "dev": "nodemon src/index.ts"
   },
