@@ -11,7 +11,11 @@ const Index = () => {
   const { data: session } = useSession();
 
   if (typeof window !== "undefined") {
-    const token = Cookies.get("__Secure-next-auth.session-token");
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)__Secure-next-auth.session-token\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    console.log(token);
     localStorage.setItem("token", token);
   }
 
