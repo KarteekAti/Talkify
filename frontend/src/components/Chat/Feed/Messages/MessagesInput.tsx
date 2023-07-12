@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { Box, Input } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { ReactPropTypes, useState } from "react";
+import { BsFillSendFill } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { ObjectId } from "bson";
 import MeassageOperations from "../../../../graphql/operations/message";
@@ -87,7 +88,7 @@ const MessagesInput: React.FC<MessagesInputProps> = ({
   };
 
   return (
-    <Box px={4} py={6} width="100%">
+    <Box display="flex" px={4} py={6} width="100%">
       <form onSubmit={onSendMessage}>
         <Input
           placeholder="Type a Message..."
@@ -100,6 +101,9 @@ const MessagesInput: React.FC<MessagesInputProps> = ({
           value={messagesBody}
           onChange={(e) => setMessageBody(e.currentTarget.value)}
         />
+        <Input display={{ base: "flex", md: "none" }} type="Submit">
+          <BsFillSendFill />
+        </Input>
       </form>
     </Box>
   );
