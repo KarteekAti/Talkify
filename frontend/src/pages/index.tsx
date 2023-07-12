@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import Auth from "../components/Auth/Auth";
 import Chat from "../components/Chat/Chat";
 import { authOptions } from "./api/auth/[...nextauth]";
-import CreateClient from "../graphql/apollo-client";
+import CreateClient from "../graphql/apollo-client.js";
 
 const Index = () => {
   const { data: session } = useSession();
