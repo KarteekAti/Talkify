@@ -5,7 +5,8 @@ export const getServerSession = async (cookie: string) => {
     headers: { cookie: cookie },
   });
   console.log(`${process.env.CLIENT_ORIGIN}/api/auth/session`);
-  console.log(res);
+
   const session = await res.json();
+  console.log(session);
   return session;
 };
