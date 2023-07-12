@@ -1,5 +1,6 @@
 import { ApolloClient, split, HttpLink, InMemoryCache } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { setContext } from "@apollo/client/link/context";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getSession } from "next-auth/react";
@@ -7,6 +8,16 @@ import { getSession } from "next-auth/react";
 const httpLink = new HttpLink({
   uri: "https://talkify-i8l1.onrender.com/graphql",
   credentials: "include",
+});
+
+const apolloAuthContext = setContext(async (_, { headers }) => {
+  const jwt_token = localStorage.getItem("__Secure-next-auth.session-token");
+  return {
+    headers: {
+      ...headers,
+      Authorization: jwt_token ? jwt_token : "",
+    },
+  };
 });
 
 const wsLink =
@@ -38,7 +49,7 @@ const link =
 
 export const client = new ApolloClient({
   ssrMode: true,
-  link,
+  link: apolloAuthContext.concat(link),
   cache: new InMemoryCache(),
   connectToDevTools: true,
   credentials: "include",

@@ -26,6 +26,8 @@ const Index = () => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
+  const cookie = context.req.cookies["__Secure-next-auth.session-token"];
+  localStorage.setItem("token", cookie);
   return {
     props: {
       session,
