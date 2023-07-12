@@ -3,12 +3,13 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getSession } from "next-auth/react";
-import { GetServerSidePropsContext } from "next";
-import { setContext } from "@apollo/client/link/context";
 
 const httpLink = new HttpLink({
   uri: "https://talkify-i8l1.onrender.com/graphql",
   credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const wsLink =
@@ -38,25 +39,7 @@ const link =
       )
     : httpLink;
 
-const CreateClient = (ctx: GetServerSidePropsContext | null) => {
-  const authLink = setContext((_, { headers }) => {
-    return {
-      headers: {
-        ...headers,
-        cookie:
-          (typeof window === "undefined"
-            ? ctx?.req?.headers.cookie || undefined
-            : undefined) || "",
-      },
-    };
-  });
-
-  return new ApolloClient({
-    credentials: "include",
-    link: authLink.concat(link),
-    cache: new InMemoryCache(),
-    ssrMode: true,
-  });
-};
-
-export default CreateClient;
+export const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache(),
+});

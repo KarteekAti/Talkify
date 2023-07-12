@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import Auth from "../components/Auth/Auth";
 import Chat from "../components/Chat/Chat";
 import { authOptions } from "./api/auth/[...nextauth]";
-import CreateClient from "../graphql/apollo-client.js";
 
 const Index = () => {
   const { data: session } = useSession();
@@ -27,7 +26,6 @@ const Index = () => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
-  const client = CreateClient(context);
   return {
     props: {
       session,
