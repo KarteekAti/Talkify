@@ -8,7 +8,6 @@ import { authOptions } from "./api/auth/[...nextauth]";
 
 const Index = () => {
   const { data: session } = useSession();
-  console.log(document.cookie.split(";"));
   const reloadSession = () => {
     const event = new Event("visibilitychange");
     document.dispatchEvent(event);
