@@ -32,7 +32,7 @@ const link =
           );
         },
         wsLink,
-        httpLink
+        httpLink,
       )
     : httpLink;
 
