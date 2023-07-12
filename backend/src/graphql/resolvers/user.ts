@@ -1,11 +1,11 @@
 import { GraphQLError } from "graphql";
-import { GraphQLContext } from "../../util/types";
+import { GraphQLContext } from "../../util/types.js";
 import {
   CreateUsernameResponse,
   Resolvers,
   SearchedUser,
   User,
-} from "../types";
+} from "../types.js";
 
 export const resolvers: Resolvers = {
   Mutation: {

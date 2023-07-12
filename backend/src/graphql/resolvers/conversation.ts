@@ -3,11 +3,11 @@ import {
   ConversationPopulated,
   ConversationUpdatedSubscriptionPayload,
   GraphQLContext,
-} from "../../util/types";
-import { Conversation, Resolvers } from "../types";
+} from "../../util/types.js";
+import { Conversation, Resolvers } from "../types.js";
 import { Prisma } from "@prisma/client";
 import { withFilter } from "graphql-subscriptions";
-import { userIsConversationParticipant } from "../../util/functions";
+import { userIsConversationParticipant } from "../../util/functions.js";
 
 const resolvers: Resolvers = {
   Query: {

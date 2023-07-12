@@ -1,6 +1,6 @@
-import userResovlers from "./user";
-import conversationResovlers from "./conversation";
-import messageResolvers from "./message";
+import userResovlers from "./user.js";
+import conversationResovlers from "./conversation.js";
+import messageResolvers from "./message.js";
 import merge from "lodash.merge";
 
 const resolvers = merge(

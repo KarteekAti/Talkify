@@ -2,12 +2,12 @@ import { GraphQLError } from "graphql";
 import {
   GraphQLContext,
   MessageSentSubscriptionPayload,
-} from "../../util/types";
-import { Resolvers } from "../types";
+} from "../../util/types.js";
+import { Resolvers } from "../types.js";
 import { Prisma } from "@prisma/client";
 import { withFilter } from "graphql-subscriptions";
-import { userIsConversationParticipant } from "../../util/functions";
-import { conversationPopulated } from "./conversation";
+import { userIsConversationParticipant } from "../../util/functions.js";
+import { conversationPopulated } from "./conversation.js";
 
 const resolvers: Resolvers = {
   Query: {

@@ -1,4 +1,4 @@
-import { ParticipantPopulated } from "./types";
+import { ParticipantPopulated } from "./types.js";
 
 export const userIsConversationParticipant = (
   participants: Array<ParticipantPopulated>,

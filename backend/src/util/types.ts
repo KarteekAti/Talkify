@@ -5,8 +5,8 @@ import { PubSub } from "graphql-subscriptions";
 import {
   conversationPopulated,
   participantPopulated,
-} from "../graphql/resolvers/conversation";
-import { messagePopulated } from "../graphql/resolvers/message";
+} from "../graphql/resolvers/conversation.js";
+import { messagePopulated } from "../graphql/resolvers/message.js";
 
 export interface GraphQLContext {
   session: Session | null;
