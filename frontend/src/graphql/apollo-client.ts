@@ -15,7 +15,7 @@ const apolloAuthContext = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      Authorization: jwt_token ? jwt_token : "",
+      Authorization: jwt_token ? jwt_token : "dfdffdfrf",
     },
   };
 });
