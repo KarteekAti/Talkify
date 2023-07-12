@@ -73,6 +73,7 @@ async function startApolloSever() {
       context: async ({ req, res }): Promise<GraphQLContext> => {
         try {
           const session = await getSession({ req });
+          console.log(session);
           return { session: session as Session, prisma, pubsub };
         } catch (error) {
           throw error;
