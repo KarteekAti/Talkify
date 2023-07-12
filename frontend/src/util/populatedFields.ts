@@ -22,6 +22,7 @@ export const conversationPopulated =
           select: {
             id: true,
             username: true,
+            image: true,
           },
         },
       },
