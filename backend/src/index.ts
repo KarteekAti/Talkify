@@ -71,7 +71,7 @@ async function startApolloSever() {
     }),
     bodyParser.json(),
     expressMiddleware(server, {
-      context: async ({ req, res }): Promise<GraphQLContext> => {
+      context: async ({ req }): Promise<GraphQLContext> => {
         try {
           const session = await getServerSession(req.headers.cookie || "");
           console.log(session);

@@ -7,9 +7,6 @@ import { getSession } from "next-auth/react";
 const httpLink = new HttpLink({
   uri: "https://talkify-i8l1.onrender.com/graphql",
   credentials: "include",
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 const wsLink =
@@ -40,6 +37,8 @@ const link =
     : httpLink;
 
 export const client = new ApolloClient({
+  ssrMode: true,
   link,
   cache: new InMemoryCache(),
+  connectToDevTools: true,
 });
