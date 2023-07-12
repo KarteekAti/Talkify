@@ -13,7 +13,7 @@ const wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
         createClient({
-          url: "ws://talkify-i8l1.onrender.com/graphql/subscriptions",
+          url: "wss://talkify-i8l1.onrender.com/graphql/subscriptions",
           connectionParams: async () => ({
             session: await getSession(),
           }),
@@ -32,7 +32,7 @@ const link =
           );
         },
         wsLink,
-        httpLink,
+        httpLink
       )
     : httpLink;
 
