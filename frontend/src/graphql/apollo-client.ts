@@ -7,6 +7,9 @@ import { getSession } from "next-auth/react";
 const httpLink = new HttpLink({
   uri: "https://talkify-i8l1.onrender.com/graphql",
   credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const wsLink =
