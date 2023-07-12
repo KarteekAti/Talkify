@@ -21,6 +21,9 @@ const resolvers: Resolvers = {
       try {
         const conversations = await prisma.conversation.findMany({
           include: conversationPopulated,
+          orderBy: {
+            updatedAt: "desc",
+          },
         });
 
         return conversations.filter(
