@@ -90,20 +90,25 @@ const MessagesInput: React.FC<MessagesInputProps> = ({
   return (
     <Box px={4} py={6} width="100%">
       <form onSubmit={onSendMessage}>
-        <Input
-          placeholder="Type a Message..."
-          _focus={{
-            boxShadow: "none",
-            border: "1px solid",
-            borderColor: "whiteAlpha.600",
-          }}
-          resize="none"
-          value={messagesBody}
-          onChange={(e) => setMessageBody(e.currentTarget.value)}
-        />
-        <Button display={{ base: "flex", md: "none" }} onClick={onSendMessage}>
-          <BsFillSendFill />
-        </Button>
+        <Box display="flex" flexDir="row">
+          <Input
+            placeholder="Type a Message..."
+            _focus={{
+              boxShadow: "none",
+              border: "1px solid",
+              borderColor: "whiteAlpha.600",
+            }}
+            resize="none"
+            value={messagesBody}
+            onChange={(e) => setMessageBody(e.currentTarget.value)}
+          />
+          <Button
+            display={{ base: "flex", md: "none" }}
+            onClick={onSendMessage}
+          >
+            <BsFillSendFill />
+          </Button>
+        </Box>
       </form>
     </Box>
   );
