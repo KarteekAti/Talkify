@@ -15,16 +15,6 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: "asbidf2342!@$%39",
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      const redirectUrl = url.startsWith("/")
-        ? new URL(url, baseUrl).toString()
-        : url;
-      console.log(
-        `[next-auth] Redirecting to "${redirectUrl}" (resolved from url "${url}" and baseUrl "${baseUrl}")`
-      );
-      return redirectUrl;
-    },
-
     async session({ session, user, token }) {
       return { ...session, user: { ...session.user, ...user } };
     },

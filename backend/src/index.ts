@@ -14,6 +14,7 @@ import { PrismaClient } from "@prisma/client";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { PubSub } from "graphql-subscriptions";
+import { getServerSession } from "next-auth";
 
 async function startApolloSever() {
   dotenv.config();
@@ -72,7 +73,7 @@ async function startApolloSever() {
     expressMiddleware(server, {
       context: async ({ req, res }): Promise<GraphQLContext> => {
         try {
-          const session = await getSession({ req });
+          const session = await getServerSession();
           console.log(session);
           return { session: session as Session, prisma, pubsub };
         } catch (error) {

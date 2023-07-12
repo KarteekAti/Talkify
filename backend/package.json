@@ -29,7 +29,7 @@
     "graphql-tools": "^9.0.0",
     "graphql-ws": "^5.14.0",
     "lodash.merge": "^4.6.2",
-    "next-auth": "^4.10.3",
+    "next-auth": "^4.22.1",
     "prisma": "^4.16.2",
     "prisma-erd-generator": "^1.6.2",
     "ts-node": "^10.9.1",
