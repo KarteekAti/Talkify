@@ -8,8 +8,12 @@ import { authOptions } from "./api/auth/[...nextauth]";
 
 const Index = () => {
   const { data: session } = useSession();
+
   const reloadSession = () => {
     const event = new Event("visibilitychange");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("token", JSON.stringify(session));
+    }
     document.dispatchEvent(event);
   };
 

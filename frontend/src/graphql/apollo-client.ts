@@ -11,11 +11,11 @@ const httpLink = new HttpLink({
 });
 
 const apolloAuthContext = setContext(async (_, { headers }) => {
-  const jwt_token = localStorage.getItem("__Secure-next-auth.session-token");
+  const jwt_token = localStorage.getItem("token");
   return {
     headers: {
       ...headers,
-      Authorization: jwt_token ? jwt_token : "dfdffdfrf",
+      Authorization: jwt_token ? jwt_token : "",
     },
   };
 });
