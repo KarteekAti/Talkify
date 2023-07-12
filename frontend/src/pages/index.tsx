@@ -4,13 +4,15 @@ import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Auth from "../components/Auth/Auth";
 import Chat from "../components/Chat/Chat";
+import Cookies from "js-cookie";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 const Index = () => {
   const { data: session } = useSession();
 
   if (typeof window !== "undefined") {
-    localStorage.setItem("token", JSON.stringify(session));
+    const token = Cookies.get("__Secure-next-auth.session-token");
+    localStorage.setItem("token", token);
   }
 
   const reloadSession = () => {
