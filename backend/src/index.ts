@@ -46,12 +46,6 @@ async function startApolloSever() {
     csrfPrevention: true,
     cache: "bounded",
     plugins: [
-      ApolloServerPluginLandingPageGraphQLPlayground({
-        settings: {
-          "request.credentials": "include",
-        },
-      }),
-  
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
