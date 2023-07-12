@@ -47,7 +47,7 @@ async function startApolloSever() {
     csrfPrevention: true,
     cache: "bounded",
     plugins: [
-      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+      ApolloServerPluginLandingPageLocalDefault({ includeCookies: true }),
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
         async serverWillStart() {
