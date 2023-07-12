@@ -6,17 +6,13 @@ import Auth from "../components/Auth/Auth";
 import Chat from "../components/Chat/Chat";
 import Cookies from "js-cookie";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { useEffect } from "react";
 
 const Index = () => {
   const { data: session } = useSession();
 
   if (typeof window !== "undefined") {
-    const token = document.cookie.replace(
-      /(?:(?:^|.*;\s*)__Secure-next-auth.session-token\s*\=\s*([^;]*).*$)|^.*$/,
-      "$1"
-    );
-    console.log(token);
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", JSON.stringify(session));
   }
 
   const reloadSession = () => {
