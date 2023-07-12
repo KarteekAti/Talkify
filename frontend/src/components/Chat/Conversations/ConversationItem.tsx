@@ -15,7 +15,7 @@ import { GoDotFill } from "react-icons/go";
 import { BiLogOut } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { formatImages, formatUsernames } from "../../../util/functions";
-import { ConversationPopulated } from "../../../../../backend/src/util/types";
+import { ConversationPopulated } from "../../../util/types";
 
 const formatRelativeLocale = {
   lastWeek: "eeee",
