@@ -14,7 +14,6 @@ import { PrismaClient } from "@prisma/client";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { PubSub } from "graphql-subscriptions";
-import { getServerSession } from "next-auth";
 
 async function startApolloSever() {
   dotenv.config();
@@ -47,6 +46,12 @@ async function startApolloSever() {
     csrfPrevention: true,
     cache: "bounded",
     plugins: [
+      ApolloServerPluginLandingPageGraphQLPlayground({
+        settings: {
+          "request.credentials": "include",
+        },
+      }),
+  
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
@@ -73,7 +78,7 @@ async function startApolloSever() {
     expressMiddleware(server, {
       context: async ({ req, res }): Promise<GraphQLContext> => {
         try {
-          const session = await getServerSession();
+          const session = await getSession({ req });
           console.log(session);
           return { session: session as Session, prisma, pubsub };
         } catch (error) {
