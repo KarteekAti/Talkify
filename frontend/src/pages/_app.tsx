@@ -2,7 +2,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import { theme } from "../chakra/theme";
-import { client } from "../graphql/apollo-client.js";
+import { client } from "../graphql/apollo-client";
 import { ApolloProvider } from "@apollo/client";
 import { Toaster } from "react-hot-toast";
 
