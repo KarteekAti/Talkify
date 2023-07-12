@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { Box, Input } from "@chakra-ui/react";
+import { Box, Button, Input } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { ReactPropTypes, useState } from "react";
 import { BsFillSendFill } from "react-icons/bs";
@@ -101,9 +101,9 @@ const MessagesInput: React.FC<MessagesInputProps> = ({
           value={messagesBody}
           onChange={(e) => setMessageBody(e.currentTarget.value)}
         />
-        <Input display={{ base: "flex", md: "none" }} type="Submit">
+        <Button display={{ base: "flex", md: "none" }} onClick={onSendMessage}>
           <BsFillSendFill />
-        </Input>
+        </Button>
       </form>
     </Box>
   );
