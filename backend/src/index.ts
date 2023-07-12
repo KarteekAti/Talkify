@@ -74,7 +74,7 @@ async function startApolloSever() {
       context: async ({ req }): Promise<GraphQLContext> => {
         try {
           const session = await getServerSession(req.headers.cookie || "");
-          console.log(req.headers.authorization);
+          console.log(req.headers);
           console.log(session);
           return { session: session as Session, prisma, pubsub };
         } catch (error) {
