@@ -88,7 +88,7 @@ const MessagesInput: React.FC<MessagesInputProps> = ({
   };
 
   return (
-    <Box display="flex" px={4} py={6} width="100%">
+    <Box px={4} py={6} width="100%">
       <form onSubmit={onSendMessage}>
         <Input
           placeholder="Type a Message..."
