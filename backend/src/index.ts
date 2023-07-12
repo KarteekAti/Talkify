@@ -73,7 +73,7 @@ async function startApolloSever() {
     expressMiddleware(server, {
       context: async ({ req }): Promise<GraphQLContext> => {
         try {
-          const session = await getServerSession(req.headers.cookie || "");
+          const session = req.headers.Session as any;
           console.log(req.headers);
           console.log(session);
           return { session: session as Session, prisma, pubsub };

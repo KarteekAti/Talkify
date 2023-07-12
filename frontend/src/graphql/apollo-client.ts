@@ -11,11 +11,11 @@ const httpLink = new HttpLink({
 });
 
 const apolloAuthContext = setContext(async (_, { headers }) => {
-  const jwt_token = localStorage.getItem("token");
+  const session = localStorage.getItem("token");
   return {
     headers: {
       ...headers,
-      Authorization: jwt_token ? jwt_token : "",
+      Session: session ? session : "",
     },
   };
 });
